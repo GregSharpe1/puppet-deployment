@@ -8,6 +8,7 @@ mod 'puppet-zypprepo', '2.2.1'
 mod 'puppetlabs-inifile', '2.3.0'
 mod 'puppet-staging', '3.2.0'
 mod 'puppetlabs-translate', '1.1.0'
+mod 'puppetlabs-concat', '4.2.1'
 
 # Wordpress specific
 mod 'puppet-nginx', '0.13.0'
