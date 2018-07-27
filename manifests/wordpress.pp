@@ -1,16 +1,10 @@
-$db_name = "wordpress_db"
-$db_user = "wordpress_user"
-$db_pass = "wordpress"
-$db_host = "localhost"
+$db_user = "root"
+$db_pass = "superduperpassword"
 
 class { 'wordpress':
-  wp_owner    => 'wwwrun',
-  wp_group    => 'www',
-  db_name     => "$db_name",
+  wp_owner    => 'root',
+  wp_group    => '0',
   db_user        => "$db_user",
   db_password    => "$db_pass",
-  create_db      => false,
-  create_db_user => false,
-  install_dir => '/srv/www/htdocs/wp',
-  db_host => "$db_host"
+  install_dir => '/var/www/html',
 }
