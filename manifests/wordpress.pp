@@ -1,5 +1,5 @@
 $db_user = "root"
-$db_pass = "superduperpassword"
+$db_pass = "wordpress_password"
 
 class { 'wordpress':
   wp_owner    => 'root',
