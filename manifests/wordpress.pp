@@ -1,8 +1,10 @@
-class { 'wordpress':
-  install_dir => '/var/www/html',
-}
+node 'agent' {
+  class { 'wordpress':
+    install_dir => '/var/www/html',
+  }
 
-# Once apache is installed we need to remove the default file
-file { '/var/www/html/index.html':
-    ensure  => 'absent',
+  # Once apache is installed we need to remove the default file
+  file { '/var/www/html/index.html':
+      ensure  => 'absent',
+  }
 }

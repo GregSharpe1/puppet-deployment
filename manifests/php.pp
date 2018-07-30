@@ -1,8 +1,10 @@
-include apache::mod::php
+node 'agent' {
+  include apache::mod::php
 
-class { "php": }
+  class { "php": }
 
-# Install a custom php module
-package { 'php5-mysqlnd-ms':
-  ensure => installed,
+  # Install a custom php module
+  package { 'php5-mysqlnd-ms':
+    ensure => installed,
+  }
 }
