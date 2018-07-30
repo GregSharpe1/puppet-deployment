@@ -1,4 +1,4 @@
 node 'jenkins' {
-  include jenkins
-  include java
+  class { "jenkins" :}
+  class { "java" : }
 }
