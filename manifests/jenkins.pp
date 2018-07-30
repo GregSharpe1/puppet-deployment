@@ -1,0 +1,4 @@
+node 'jenkins' {
+  include jenkins
+
+}
