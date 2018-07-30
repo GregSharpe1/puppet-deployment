@@ -1,10 +1,7 @@
-$db_user = "root"
-$db_pass = "password"
-
 class { 'wordpress':
   wp_owner    => 'root',
   wp_group    => '0',
-  db_user        => "$db_user",
-  db_password    => "$db_pass",
+  db_user        => "root",
+  db_password    => "password",
   install_dir => '/var/www/html',
 }
