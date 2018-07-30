@@ -5,3 +5,8 @@ class { 'wordpress':
   # db_password    => "password",
   install_dir => '/var/www/html',
 }
+
+# Once apache is installed we need to remove the default file
+file { '/var/www/index.html':
+    ensure  => 'absent',
+}
