@@ -1,9 +1,6 @@
 node 'jenkins' {
   include jenkins
-
-  class { 'java' :
-    package => 'java-1.8.0-openjdk-devel',
-  }
+  include java
 
   # Java install
   java::oracle { 'jdk8' :
