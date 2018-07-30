@@ -7,3 +7,5 @@
 #   ensure => 'present',
 # }
 # Install mysql server then create the wordpress database
+
+include mysql::server
