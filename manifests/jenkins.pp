@@ -26,15 +26,6 @@ node 'jenkins' {
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
   }
 
-  # apt::source {
-  #   'jenkins':
-  #     ensure  => present,
-  #     content => 'deb http://pkg.jenkins-ci.org/debian-stable binary/',
-  #     # The above gives you the LTS release. Use the below repo to get the very latest
-  #     # content => 'deb http://pkg.jenkins-ci.org/debian binary/',
-  #     require => Apt::Key['D50582E6'],
-  # }
-
   apt::source { 'jenkins':
     comment => 'This is the Jenkins install',
     location => 'http://pkg.jenkins-ci.org/debian-stable',
@@ -50,6 +41,18 @@ node 'jenkins' {
     ensure => installed,
     require => Exec['apt-update'],
   }
+
+  # Before starting the jenkins service we must edit the /etc/default/jenkins file
+  # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
+  file { 'jenkins' :
+    path => '/home/vagrant/jenkins',
+    ensure => file,
+    require => Package['jenkins'],
+    notify => Service['jenkins'],
+    content => template('test-file.txt')
+
+  }
+
 
   service { 'jenkins':
     name => 'jenkins',
