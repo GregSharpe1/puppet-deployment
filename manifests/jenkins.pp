@@ -1,10 +1,8 @@
 node 'jenkins' {
   # We have decided to attempt to create the manifest ourselves
-  java::oracle { 'jdk8' :
-    ensure  => 'present',
-    version => '8',
-    java_se => 'jdk',
-  }
+class { 'java' :
+  package => 'java-1.8.0-openjdk-devel',
+}
 
   # According to the installion docs from Jenkins.io 
   # https://jenkins.io/doc/book/installing/
