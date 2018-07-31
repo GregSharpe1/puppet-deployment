@@ -45,7 +45,7 @@ node 'jenkins' {
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
-    command => 'echo "JAVA_ARGS="-Djava.install.runSetupWizard=false"" >> /etc/default/jenkins'
+    command => '/bin/echo "JAVA_ARGS="-Djava.install.runSetupWizard=false"" >> /etc/default/jenkins'
   }
 
   service { 'jenkins':
