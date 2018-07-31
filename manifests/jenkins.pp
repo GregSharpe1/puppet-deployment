@@ -39,7 +39,7 @@ node 'jenkins' {
     comment => 'This is the Jenkins install',
     location => 'http://pkg.jenkins-ci.org/debian-stable',
     release => '',
-    repos => 'binary',
+    repos => 'binary/',
     include => {
       'deb' => true,
     },
