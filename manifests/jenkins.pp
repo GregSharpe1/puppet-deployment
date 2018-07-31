@@ -35,7 +35,7 @@ node 'jenkins' {
   #     require => Apt::Key['D50582E6'],
   # }
 
-  apt::source { 'jenkins'
+  apt::source { 'jenkins':
     comment => 'This is the Jenkins install',
     location => 'http://pkg.jenkins-ci.org/debian-stable',
     repos => 'binary',
