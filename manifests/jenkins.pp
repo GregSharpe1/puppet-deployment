@@ -5,9 +5,6 @@ node 'jenkins' {
     refreshonly => true,
   }
 
-  class { 'apt':
-    always_apt_update => true,
-  }
 
   # We have decided to attempt to create the manifest ourselves
   # Install Java8 on Ubuntu14.04 is a little different
