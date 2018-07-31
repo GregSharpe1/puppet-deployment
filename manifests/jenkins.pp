@@ -5,6 +5,7 @@ node 'jenkins' {
   include apt
 
   apt::ppa{ 'ppa:jonathonf/openjdk':
+    before => Exec['apt-update'],
   }
 
   # According to the installion docs from Jenkins.io
@@ -14,6 +15,7 @@ node 'jenkins' {
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+    before => Exec['apt-update'],
   }
 
   apt::source { 'jenkins':
@@ -24,32 +26,36 @@ node 'jenkins' {
     include => {
       'deb' => true,
     },
+    before => Exec['apt-update'],
   }
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
-    refresh => "/usr/bin/apt-get update",
   }
 
   package { 'java8':
     name => "openjdk-8-jdk",
     ensure => installed,
+    require => Exec['apt-update'],
   }
 
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
+    require => Exec['apt-update'],
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
-   command => '/bin/echo "JAVA_ARGS=\"-Djava.install.runSetupWizard=false\"" >> /etc/default/jenkins',
+    command => '/bin/echo "JAVA_ARGS=\"-Djava.install.runSetupWizard=false\"" >> /etc/default/jenkins',
+    require => Exec['apt-update']
   }
 
   service { 'jenkins':
     name => 'jenkins',
     ensure  => running,
     enable  => true,
+    require => Exec['apt-update']
   }
 }
