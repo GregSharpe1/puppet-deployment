@@ -29,7 +29,7 @@ node 'jenkins' {
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
-    notify => ['apt-update'],
+    notify => Exec['apt-update'],
   }
 
   apt::source { 'jenkins':
@@ -59,6 +59,6 @@ node 'jenkins' {
     name => 'jenkins',
     ensure  => running,
     enable  => true,
-    before => Package['jenkins'],
+    before => Exec['add jenkins java variable'],
   }
 }
