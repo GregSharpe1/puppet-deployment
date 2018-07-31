@@ -18,7 +18,7 @@ node 'jenkins' {
   apt::source { 'jenkins_ci':
     comment => "Adding the Jenkins-ci source",
     location => "http://pkg.jenkins.io/debain-stable"
-    release => "stable"
+    # release => "stable"
     include => {
       'deb' => true,
     },
