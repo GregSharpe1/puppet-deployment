@@ -8,10 +8,10 @@ node 'jenkins' {
   # Install Java8 on Ubuntu14.04 is a little different
   include apt
 
-  apt::ppa{ 'ppa:openjdk-r/ppa': }
+  apt::ppa{ 'ppa:jonathonf/openjdk': }
 
   package { 'java8': 
-    name => "openjdk-8-jre",
+    name => "openjdk-8-jdk",
     ensure => installed,
     require => Exec['apt-update'],
   } 
