@@ -39,6 +39,7 @@ node 'jenkins' {
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
+    require => Exec["apt-update"],
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
