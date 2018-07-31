@@ -15,7 +15,7 @@ node 'jenkins' {
   #   command => "wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -"    
   # }
 
-  apt:source { 'jenkins_ci':
+  apt::source { 'jenkins_ci':
     comment => "Adding the Jenkins-ci source",
     location => "http://pkg.jenkins.io/debain-stable"
     release => "stable"
