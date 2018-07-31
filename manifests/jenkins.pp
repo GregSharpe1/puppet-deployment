@@ -24,6 +24,7 @@ node 'jenkins' {
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+    notify => ['apt-update'],
   }
 
   apt::source { 'jenkins':
