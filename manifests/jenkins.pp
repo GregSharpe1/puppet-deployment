@@ -22,9 +22,9 @@ node 'jenkins' {
   # First step is to add the gpg key to the list of trusted keys
 
 
-  apt::key{ 'jenkins-ci':
-    server => 'https://pkg.jenkins.io/debian/jenkins.io.key'
-  }
+  exec {'get key jenkins':
+    command => "/usr/bin/wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -",
+  } 
 
   # exec { 'added jenkins apt key':
   #   command => "wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -"    
