@@ -3,7 +3,7 @@ node 'jenkins' {
   # Install Java8 on Ubuntu14.04 is a little different
   include apt
 
-  apt::ppa{ 'ppa:webupd8team/java'}
+  apt::ppa{ 'ppa:webupd8team/java': }
 
   package { 'java8': 
     name => "oracle-java8-installer",
