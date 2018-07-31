@@ -5,7 +5,6 @@ node 'jenkins' {
   include apt
 
   apt::ppa{ 'ppa:jonathonf/openjdk':
-    before => Package['java8']
   }
 
   # According to the installion docs from Jenkins.io
@@ -15,7 +14,6 @@ node 'jenkins' {
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
-    before => Package['jenkins'],
   }
 
   apt::source { 'jenkins':
@@ -26,24 +24,21 @@ node 'jenkins' {
     include => {
       'deb' => true,
     },
-    before => Package['jenkins'],
   }
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
+    refresh => "/usr/bin/apt-get update",
   }
 
   package { 'java8':
     name => "openjdk-8-jdk",
     ensure => installed,
-    require => Exec["apt-update"],
   }
 
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
-    require => Exec["apt-update"],
-    before => Exec['add jenkins java variable']
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
