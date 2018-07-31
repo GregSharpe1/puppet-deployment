@@ -14,7 +14,7 @@ node 'jenkins' {
   package { 'java8':
     name => "openjdk-8-jdk",
     ensure => installed,
-    notify => Exec['apt-update'],
+    require=> Exec['apt-update'],
   }
 
   # According to the installion docs from Jenkins.io
