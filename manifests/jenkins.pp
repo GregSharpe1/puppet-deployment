@@ -21,27 +21,30 @@ node 'jenkins' {
 
   # First step is to add the gpg key to the list of trusted keys
 
+  apt::key {
+    'D50582E6':
+      source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+  }
 
-  exec {'get key jenkins':
-    command => "/usr/bin/wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -",
-  } 
-
-  # exec { 'added jenkins apt key':
-  #   command => "wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -"    
-  # }
-
-  apt::source { 'jenkins':
-    comment => "Adding the Jenkins-ci package",
-    location => "http://pkg.jenkins.io/debain-stable",
-    repos => "binary",
-    include => {
-      'deb' => true,
-    },
+  apt::sources_list {
+    'jenkins':
+      ensure  => present,
+      content => 'deb http://pkg.jenkins-ci.org/debian-stable binary/',
+      # The above gives you the LTS release. Use the below repo to get the very latest
+      # content => 'deb http://pkg.jenkins-ci.org/debian binary/',
+      require => Apt::Key['D50582E6'],
   }
 
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
     require => Exec['apt-update'],
+  }
+
+  service { 'jenkins':
+    name => 'jenkins',
+    ensure  => running,
+    enable  => true,
+    require => Package['jenkins'],
   }
 }
