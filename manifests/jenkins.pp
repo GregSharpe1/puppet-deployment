@@ -2,7 +2,7 @@ node 'jenkins' {
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
-    refreshonly => true,
+    notify {"[LOG] Running sudo apt-get update..."}
   }
 
   # We have decided to attempt to create the manifest ourselves
@@ -21,7 +21,6 @@ node 'jenkins' {
   # https://jenkins.io/doc/book/installing/
 
   # First step is to add the gpg key to the list of trusted keys
-
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
