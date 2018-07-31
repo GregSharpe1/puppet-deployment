@@ -26,7 +26,7 @@ node 'jenkins' {
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
   }
 
-  apt::sources_list {
+  apt::source {
     'jenkins':
       ensure  => present,
       content => 'deb http://pkg.jenkins-ci.org/debian-stable binary/',
