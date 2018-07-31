@@ -26,13 +26,22 @@ node 'jenkins' {
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
   }
 
-  apt::source {
-    'jenkins':
-      ensure  => present,
-      content => 'deb http://pkg.jenkins-ci.org/debian-stable binary/',
-      # The above gives you the LTS release. Use the below repo to get the very latest
-      # content => 'deb http://pkg.jenkins-ci.org/debian binary/',
-      require => Apt::Key['D50582E6'],
+  # apt::source {
+  #   'jenkins':
+  #     ensure  => present,
+  #     content => 'deb http://pkg.jenkins-ci.org/debian-stable binary/',
+  #     # The above gives you the LTS release. Use the below repo to get the very latest
+  #     # content => 'deb http://pkg.jenkins-ci.org/debian binary/',
+  #     require => Apt::Key['D50582E6'],
+  # }
+
+  apt::source { 'jenkins'
+    comment => 'This is the Jenkins install',
+    location => 'http://pkg.jenkins-ci.org/debian-stable',
+    repos => 'binary',
+    include => {
+      'src' => true,
+    },
   }
 
   package { 'jenkins':
