@@ -30,19 +30,15 @@ node 'jenkins' {
   #   command => "wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -"    
   # }
 
-  # apt::source { 'jenkins-ci':
-  #   comment => "Adding the Jenkins-ci package",
-  #   location => "http://pkg.jenkins.io/debain-stable",
-  #   repos => "binary",
-  #   include => {
-  #     'deb' => true,
-  #   },
-  # }
+  apt::source { 'jenkins':
+    comment => "Adding the Jenkins-ci package",
+    location => "http://pkg.jenkins.io/debain-stable",
+    repos => "binary",
+    include => {
+      'deb' => true,
+    },
+  }
 
-   exec {'setup jenkins':
-    #require => Exec["get key jenkins"],
-    command => "/bin/sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'",
-  } 
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
