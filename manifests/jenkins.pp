@@ -2,6 +2,7 @@ node 'jenkins' {
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
+    onlyif  => "/bin/sh -c '[ ! -f /var/cache/apt/pkgcache.bin ] || /usr/bin/find /etc/apt/* -cnewer /var/cache/apt/pkgcache.bin | /bin/grep . > /dev/null'",
   }
 
   # We have decided to attempt to create the manifest ourselves
@@ -13,7 +14,7 @@ node 'jenkins' {
   package { 'java8':
     name => "openjdk-8-jdk",
     ensure => installed,
-    require => Exec['apt-update'],
+    require => Exec["apt-update"],
   }
 
   # According to the installion docs from Jenkins.io
@@ -23,7 +24,6 @@ node 'jenkins' {
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
-    notify => Exec['apt-update'],
   }
 
   apt::source { 'jenkins':
@@ -45,13 +45,11 @@ node 'jenkins' {
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
     command => '/bin/echo "JAVA_ARGS=\"-Djava.install.runSetupWizard=false\"" >> /etc/default/jenkins',
-    require => Package['jenkins'], 
   }
 
   service { 'jenkins':
     name => 'jenkins',
     ensure  => running,
     enable  => true,
-    before => Exec['add jenkins java variable'],
   }
 }
