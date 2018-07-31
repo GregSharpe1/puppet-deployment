@@ -2,7 +2,6 @@ node 'jenkins' {
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
-    notify {"[LOG] Running sudo apt-get update..."}
   }
 
   # We have decided to attempt to create the manifest ourselves
