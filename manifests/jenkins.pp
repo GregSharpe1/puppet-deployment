@@ -1,21 +1,11 @@
 node 'jenkins' {
 
-  exec { "apt-update":
-    command => "/usr/bin/apt-get update",
-  }
-
   # We have decided to attempt to create the manifest ourselves
   # Install Java8 on Ubuntu14.04 is a little different
   include apt
 
   apt::ppa{ 'ppa:jonathonf/openjdk':
     before => Package['java8']
-  }
-
-  package { 'java8':
-    name => "openjdk-8-jdk",
-    ensure => installed,
-    require => Exec["apt-update"],
   }
 
   # According to the installion docs from Jenkins.io
@@ -37,6 +27,16 @@ node 'jenkins' {
       'deb' => true,
     },
     before => Package['jenkins'],
+  }
+
+  exec { "apt-update":
+    command => "/usr/bin/apt-get update",
+  }
+
+  package { 'java8':
+    name => "openjdk-8-jdk",
+    ensure => installed,
+    require => Exec["apt-update"],
   }
 
   package { 'jenkins':
