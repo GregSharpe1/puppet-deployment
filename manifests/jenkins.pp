@@ -39,10 +39,10 @@ node 'jenkins' {
   #   },
   # }
 
-  exec {'get key jenkins':
-    command => "/usr/bin/wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -",
+   exec {'setup jenkins':
+    #require => Exec["get key jenkins"],
+    command => "/bin/sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'",
   } 
-
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
