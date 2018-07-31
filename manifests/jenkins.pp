@@ -1,8 +1,14 @@
 node 'jenkins' {
   # We have decided to attempt to create the manifest ourselves
-  class { 'java' :
-    package => 'openjdk-8-jre',
-  }
+  # Install Java8 on Ubuntu14.04 is a little different
+  include apt
+
+  apt:ppa{ 'ppa:webupd8team/java'}
+
+  package { 'java8': 
+    name => "oracle-java8-installer",
+    ensure => installed,
+  } 
 
   # According to the installion docs from Jenkins.io 
   # https://jenkins.io/doc/book/installing/
