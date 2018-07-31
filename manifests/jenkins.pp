@@ -44,14 +44,9 @@ node 'jenkins' {
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
-  file { 'jenkins' :
-    path => '/home/vagrant/jenkins',
-    ensure => file,
-    require => Package['jenkins'],
-    notify => Service['jenkins'],
-    source => '../templates/test-file.txt'
+  exec { 'add jenkins java variable':
+    command => 'echo "JAVA_ARGS="-Djava.install.runSetupWizard=false"" >> /etc/default/jenkins'
   }
-
 
   service { 'jenkins':
     name => 'jenkins',
