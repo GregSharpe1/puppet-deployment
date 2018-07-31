@@ -1,7 +1,12 @@
 node 'jenkins' {
 
   exec { "apt-update":
-      command => "/usr/bin/apt-get update"
+    command => "/usr/bin/apt-get update",
+    refreshonly => true,
+  }
+
+  class { 'apt':
+    always_apt_update => true,
   }
 
   # We have decided to attempt to create the manifest ourselves
@@ -54,6 +59,6 @@ node 'jenkins' {
     name => 'jenkins',
     ensure  => running,
     enable  => true,
-    require => Package['jenkins'],
+    before => Package['jenkins'],
   }
 }
