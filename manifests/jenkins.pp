@@ -38,9 +38,10 @@ node 'jenkins' {
   apt::source { 'jenkins':
     comment => 'This is the Jenkins install',
     location => 'http://pkg.jenkins-ci.org/debian-stable',
+    release => '',
     repos => 'binary',
     include => {
-      'src' => true,
+      'deb' => true,
     },
   }
 
