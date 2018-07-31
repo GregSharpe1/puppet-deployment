@@ -47,7 +47,7 @@ node 'jenkins' {
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
     command => '/bin/echo "JAVA_ARGS=\"-Djava.install.runSetupWizard=false\"" >> /etc/default/jenkins',
-    require = Package['jenkins'], 
+    require => Package['jenkins'], 
   }
 
   service { 'jenkins':
