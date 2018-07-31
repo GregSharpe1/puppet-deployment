@@ -1,4 +1,9 @@
 node 'jenkins' {
+
+  exec { "apt-update":
+      command => "/usr/bin/apt-get update"
+  }
+
   # We have decided to attempt to create the manifest ourselves
   # Install Java8 on Ubuntu14.04 is a little different
   include apt
@@ -8,6 +13,7 @@ node 'jenkins' {
   package { 'java8': 
     name => "oracle-java8-installer",
     ensure => installed,
+    require => Exec['apt-update'],
   } 
 
   # According to the installion docs from Jenkins.io 
