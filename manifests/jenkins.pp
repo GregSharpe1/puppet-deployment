@@ -2,14 +2,15 @@ node 'jenkins' {
 
   exec { "apt-update":
     command => "/usr/bin/apt-get update",
-    onlyif  => "/bin/sh -c '[ ! -f /var/cache/apt/pkgcache.bin ] || /usr/bin/find /etc/apt/* -cnewer /var/cache/apt/pkgcache.bin | /bin/grep . > /dev/null'",
   }
 
   # We have decided to attempt to create the manifest ourselves
   # Install Java8 on Ubuntu14.04 is a little different
   include apt
 
-  apt::ppa{ 'ppa:jonathonf/openjdk': }
+  apt::ppa{ 'ppa:jonathonf/openjdk':
+    before => Package['java8']
+  }
 
   package { 'java8':
     name => "openjdk-8-jdk",
@@ -24,6 +25,7 @@ node 'jenkins' {
   apt::key {
     'D50582E6':
       source => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
+    before => Package['jenkins'],
   }
 
   apt::source { 'jenkins':
@@ -34,18 +36,20 @@ node 'jenkins' {
     include => {
       'deb' => true,
     },
+    before => Package['jenkins'],
   }
 
   package { 'jenkins':
     name => 'jenkins',
     ensure => installed,
     require => Exec["apt-update"],
+    before => Exec['add jenkins java variable']
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
-    command => '/bin/echo "JAVA_ARGS=\"-Djava.install.runSetupWizard=false\"" >> /etc/default/jenkins',
+   command => '/bin/echo "JAVA_ARGS=\"-Djava.install.runSetupWizard=false\"" >> /etc/default/jenkins',
   }
 
   service { 'jenkins':
