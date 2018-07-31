@@ -49,7 +49,7 @@ node 'jenkins' {
     ensure => file,
     require => Package['jenkins'],
     notify => Service['jenkins'],
-    content => template('templates/test-file.txt')
+    content => '../templates/test-file.txt'
   }
 
 
