@@ -12,7 +12,7 @@ node 'jenkins' {
     require => Exec['apt-update']
   }
 
-  package { 'java8':'
+  package { 'java8':
     name => "openjdk-8-jdk",
     ensure => installed,
     require => Exec['apt-update'],
