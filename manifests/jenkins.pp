@@ -8,15 +8,17 @@ node 'jenkins' {
   # Install Java8 on Ubuntu14.04 is a little different
   include apt
 
-  apt::ppa{ 'ppa:jonathonf/openjdk': }
+  apt::ppa{ 'ppa:jonathonf/openjdk':
+    require => Exec['apt-update']
+  }
 
-  package { 'java8': 
+  package { 'java8':'
     name => "openjdk-8-jdk",
     ensure => installed,
     require => Exec['apt-update'],
-  } 
+  }
 
-  # According to the installion docs from Jenkins.io 
+  # According to the installion docs from Jenkins.io
   # https://jenkins.io/doc/book/installing/
 
   # First step is to add the gpg key to the list of trusted keys
