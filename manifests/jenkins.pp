@@ -29,8 +29,8 @@ node 'jenkins' {
   # }
 
   package { 'jenkins':
-    name => 'jenkins'
+    name => 'jenkins',
     ensure => installed,
-    require => Exec['apt-get update']
+    require => Exec['apt-get update'],
   }
 }
