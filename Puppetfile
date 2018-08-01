@@ -18,5 +18,4 @@ mod 'hunner-wordpress', '1.0.0'
 mod 'puppetlabs-apache', '3.2.0'
 
 # Jenkins specific
-mod 'rtyler-jenkins', '1.7.0'
 mod 'puppetlabs-java', '1.6.0'
