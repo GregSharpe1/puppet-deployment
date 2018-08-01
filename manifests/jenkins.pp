@@ -41,7 +41,7 @@ node 'jenkins' {
 
   package { 'jenkins':
     name => 'jenkins',
-    ensure => installed,
+    ensure => "2.60.3",
     require => Exec['apt-update'],
   }
 
