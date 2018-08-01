@@ -45,21 +45,11 @@ node 'jenkins' {
     require => Exec['apt-update'],
   }
 
-  exec {"default_jenkins_exists":
-    command => '/bin/true',
-    onlyif => '/bin/test -e /etc/default/jenkins',
-  }
-
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
     command => '/bin/sed -i "s#JAVA_ARGS="-Djenkins.install.runSetupWizard=false"#JAVA_ARGS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"#g" /etc/default/jenkins',
     require => Service['jenkins']
-  }
-
-  exec {"jenkins_config_exists":
-    command => '/bin/true',
-    onlyif => '/bin/test -e /var/lib/jenkins/config.xml',
   }
 
   # I openly admit this is a hack!
