@@ -47,7 +47,7 @@ node 'jenkins' {
 
   exec {"default_jenkins_exists":
     command => '/bin/true',
-    onlyif => '/usr/bin/test -e /etc/default/jenkins',
+    onlyif => '/bin/test -e /etc/default/jenkins',
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
@@ -59,10 +59,10 @@ node 'jenkins' {
 
   exec {"jenkins_config_exists":
     command => '/bin/true',
-    onlyif => '/usr/bin/test -e /var/lib/jenkins/config.xml',
+    onlyif => '/bin/test -e /var/lib/jenkins/config.xml',
   }
 
-  # I openly admit this is a hack!  
+  # I openly admit this is a hack!
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
     require => Exec['jenkins_config_exists'], 
