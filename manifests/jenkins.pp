@@ -49,13 +49,15 @@ node 'jenkins' {
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
     command => '/bin/sed -i "s#JAVA_ARGS=\"-Djava.awt.headless=true\"#JAVA_ARGS=\"-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\"#g" /etc/default/jenkins',
-    require => Service['jenkins']
+    require => Service['jenkins'],
+    notify => Exec['restart_jenkins']
   }
 
   # I openly admit this is a hack!
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
-    require => Service['jenkins']
+    require => Service['jenkins'],
+    notify => Exec['restart_jenkins']
   }
 
   service { 'jenkins':
@@ -63,5 +65,9 @@ node 'jenkins' {
     ensure  => running,
     enable  => true,
     require => Exec['apt-update']
+  }
+
+  exec { 'restart_jenkins' : 
+    command => "/usr/sbin/service jenkins restart",
   }
 }
