@@ -16,3 +16,6 @@ mod 'puppet-php', '5.3.0'
 mod 'puppetlabs-mysql', '5.4.0'
 mod 'hunner-wordpress', '1.0.0'
 mod 'puppetlabs-apache', '3.2.0'
+
+# Jenkins specific
+mod 'puppetlabs-java', '1.6.0'
