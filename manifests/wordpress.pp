@@ -1,4 +1,4 @@
-node 'agent' {
+node 'wordpress' {
 
   # MySQL related shit
   class { '::mysql::server': 
