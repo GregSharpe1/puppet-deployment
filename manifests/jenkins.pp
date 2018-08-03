@@ -55,10 +55,22 @@ node 'jenkins' {
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
+  # exec { 'add jenkins java variable':
+  #   command => '/bin/sed -i "s#JAVA_ARGS=\"-Djava.awt.headless=true\"#JAVA_ARGS=\"-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\"#g" /etc/default/jenkins',
+  #   require => Package['jenkins'],
+  #   notify => Service['start jenkins']
+  # }
+
+  # exec { 'replace security tag to false':
+  #   command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
+  #   require => Package['jenkins'],
+  #   notify => Service['start jenkins']
+  # } # Before starting the jenkins service we must edit the /etc/default/jenkins file
+  # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
     command => '/bin/sed -i "s#JAVA_ARGS=\"-Djava.awt.headless=true\"#JAVA_ARGS=\"-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\"#g" /etc/default/jenkins',
     require => Package['jenkins'],
-    notify => Service['start jenkins']
+    subscribe => Service['start jenkins']
   }
 
   exec { 'replace security tag to false':
