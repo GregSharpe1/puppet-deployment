@@ -64,6 +64,7 @@ node 'jenkins' {
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
     require => Package['jenkins'],
+    onlyif  => '/usr/bin/test -e /var/lib/jenkins/config.xml',
     subscribe => Service['start jenkins']
   }
 
