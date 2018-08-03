@@ -53,7 +53,7 @@ node 'jenkins' {
   #   before =>  Exec['add jenkins java variable']
   # }
 
-  exec { 'restart_jenkins' : 
+  exec { 'start_jenkins' : 
     command => "/usr/sbin/service jenkins start",
     before => 'add jenkins java variable',
   }
