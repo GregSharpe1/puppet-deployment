@@ -57,15 +57,12 @@ node 'jenkins' {
   exec { 'add jenkins java variable':
     command => '/bin/sed -i "s#JAVA_ARGS=\"-Djava.awt.headless=true\"#JAVA_ARGS=\"-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\"#g" /etc/default/jenkins',
     subscribe => Service['start jenkins'],
-  }
-
-  # I openly admit this is a hack!
+  } ->
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
     subscribe => Service['start jenkins'],
+  } ~>
+  exec { 'restart_jenkins' : 
+    command => "/usr/sbin/service jenkins restart",
   }
-
-  # exec { 'restart_jenkins' : 
-  #   command => "/usr/sbin/service jenkins restart",
-  # }
 }
