@@ -45,7 +45,7 @@ node 'jenkins' {
     require => Exec['apt-update'],
   }
 
-  service { 'jenkins':
+  service { 'start jenkins':
     name => 'jenkins',
     ensure  => running,
     enable  => true,
