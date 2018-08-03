@@ -50,12 +50,7 @@ node 'jenkins' {
     ensure  => running,
     enable  => true,
     require => Exec['apt-update'],
-    before =>  Exec['add jenkins java variable']
   }
-
-  # exec { 'start_jenkins' : 
-  #   command => "/usr/sbin/service jenkins start",
-  # }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
