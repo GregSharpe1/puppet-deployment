@@ -1,3 +1,3 @@
 node 'jenkins' {
-  include role::jenkins::master
+  include jenkins
 }
