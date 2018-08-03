@@ -30,7 +30,7 @@ node 'jenkins' {
   }
 
   exec { "apt-update":
-    command => "/usr/bin/apt-get update",
+    command => "/usr/bin/apt-get update"
   }
 
   package { 'java8':
@@ -49,7 +49,7 @@ node 'jenkins' {
     name => 'jenkins',
     ensure  => running,
     enable  => true,
-    require => Exec['apt-update'],
+    require => Package['jenkins'],
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
@@ -62,7 +62,8 @@ node 'jenkins' {
 
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
-    require => Exec['add jenkins java variable'],
+    require => Package['jenkins'],
+    notify => Service['start jenkins']
   }
 
 }
