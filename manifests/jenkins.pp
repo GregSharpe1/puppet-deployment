@@ -49,7 +49,7 @@ node 'jenkins' {
     name => 'jenkins',
     ensure  => running,
     enable  => true,
-    require => Exec['apt-update'],
+    notify => Exec['apt-update'],
     before =>  Exec['add jenkins java variable']
   }
 
