@@ -17,5 +17,8 @@ mod 'puppetlabs-mysql', '5.4.0'
 mod 'hunner-wordpress', '1.0.0'
 mod 'puppetlabs-apache', '3.2.0'
 
-# Jenkins specific
-mod 'puppetlabs-java', '1.6.0'
+# For managing Jenkins itself
+mod 'rtyler/jenkins', '1.7.0'
+# Needed for the Jenkins module
+mod 'puppetlabs/java', '1.5.0'
+mod 'puppet/archive', '1.1.2'
