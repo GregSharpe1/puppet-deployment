@@ -26,57 +26,46 @@ node 'jenkins' {
     include => {
       'deb' => true,
     },
-    before => Exec['apt-update'],
+    subscribe => Exec['apt-update'],
   }
 
   exec { "apt-update":
-    command => "/usr/bin/apt-get update"
+    command => "/usr/bin/apt-get update",
   }
 
   package { 'java8':
     name => "openjdk-8-jdk",
     ensure => installed,
-    require => Exec['apt-update'],
+    notify => Exec['apt-update'],
   }
 
   package { 'jenkins':
     name => 'jenkins',
     ensure => "2.73.3",
-    require => Exec['apt-update'],
+    notify => Exec['apt-update'],
   }
 
   service { 'start jenkins':
     name => 'jenkins',
     ensure  => running,
     enable  => true,
-    notify => Exec['apt-update'],
-    before =>  Exec['add jenkins java variable']
+    require => Package['jenkins']
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
   # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
-  # exec { 'add jenkins java variable':
-  #   command => '/bin/sed -i "s#JAVA_ARGS=\"-Djava.awt.headless=true\"#JAVA_ARGS=\"-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\"#g" /etc/default/jenkins',
-  #   require => Package['jenkins'],
-  #   notify => Service['start jenkins']
-  # }
-
-  # exec { 'replace security tag to false':
-  #   command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
-  #   require => Package['jenkins'],
-  #   notify => Service['start jenkins']
-  # } # Before starting the jenkins service we must edit the /etc/default/jenkins file
-  # to allow the -Djenkins.install.runSetupWizard=false flag under JAVA_OPTION variable.
   exec { 'add jenkins java variable':
     command => '/bin/sed -i "s#JAVA_ARGS=\"-Djava.awt.headless=true\"#JAVA_ARGS=\"-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\"#g" /etc/default/jenkins',
-    require => Package['jenkins'],
-    subscribe => Service['start jenkins']
+    subscribe => Service['start jenkins'],
   }
 
+  # I openly admit this is a hack!
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
-    require => Package['jenkins'],
-    notify => Service['start jenkins']
+    subscribe => Service['start jenkins'],
   }
 
+  # exec { 'restart_jenkins' : 
+  #   command => "/usr/sbin/service jenkins restart",
+  # }
 }
