@@ -55,7 +55,6 @@ node 'jenkins' {
 
   exec { 'start_jenkins' : 
     command => "/usr/sbin/service jenkins start",
-    before => Exec['add jenkins java variable'],
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
