@@ -45,12 +45,17 @@ node 'jenkins' {
     require => Exec['apt-update'],
   }
 
-  service { 'start jenkins':
-    name => 'jenkins',
-    ensure  => running,
-    enable  => true,
-    require => Exec['apt-update'],
-    before =>  Exec['add jenkins java variable']
+  # service { 'start jenkins':
+  #   name => 'jenkins',
+  #   ensure  => running,
+  #   enable  => true,
+  #   require => Exec['apt-update'],
+  #   before =>  Exec['add jenkins java variable']
+  # }
+
+  exec { 'restart_jenkins' : 
+    command => "/usr/sbin/service jenkins start",
+    before => 'add jenkins java variable',
   }
 
   # Before starting the jenkins service we must edit the /etc/default/jenkins file
