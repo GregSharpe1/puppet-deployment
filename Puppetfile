@@ -1,7 +1,7 @@
 forge 'http://forge.puppetlabs.com'
 
 # Dependices
-mod 'puppetlabs-apt', '5.0.0'
+mod 'puppetlabs-apt', '2.4.0'
 mod 'puppetlabs-stdlib', '4.25.1'
 
 mod 'puppet-zypprepo', '2.2.1'
