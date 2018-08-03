@@ -62,12 +62,7 @@ node 'jenkins' {
 
   exec { 'replace security tag to false':
     command => '/bin/sed -i "s#<useSecurity>true#<useSecurity>false#g" /var/lib/jenkins/config.xml',
-    require => Service['start jenkins'],
-    notify => Service['start jenkins']
+    require => Service['add jenkins java variable'],
   } 
-
-  exec { 'restart_jenkins' : 
-    command => "/usr/sbin/service jenkins restart",
-  }
 
 }
